@@ -4,26 +4,64 @@
     ViewData["Title"] = Model.Title;
 }
 
-<div class="row justify-content-between mt-60-px">
-    <div class="col-md-3">
-        <img src="data:image/*;base64,@(Convert.ToBase64String(Model.Poster))" class="img-thumbnail" alt="@Model.Title" />
+<div class="movie-details-container">
+    <div class="movie-details-header">
+        <a asp-action="Index" class="btn btn-secondary btn-modern">
+            <i class="bi bi-arrow-left"></i>
+            Back to Movies
+        </a>
     </div>
-    <div class="col-md-7">
-        <div class="d-flex justify-content-between mb-3">
-            <h3>@Model.Title</h3>
-            <span class="mt-2">
-                <i class="bi bi-star-fill text-warning"></i>
-                <span class="text-muted">@Model.Rate.ToString("0.0")</span>
-            </span>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="movie-poster-wrapper">
+                <img src="data:image/*;base64,@(Convert.ToBase64String(Model.Poster))" 
+                     class="movie-poster-image" 
+                     alt="@Model.Title" />
+            </div>
         </div>
-        <span class="text-muted mr-3">
-            <i class="bi bi-calendar-week"></i>
-            @Model.Year
-        </span>
-        <span class="text-muted">
-            <i class="bi bi-film"></i>
-            @Model.Genre.Name
-        </span>
-        <p class="text-justify mt-3">@Model.Storeline</p>
+        <div class="col-md-8">
+            <div class="movie-details-content">
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <h1 class="movie-title">@Model.Title</h1>
+                    <div class="rating-badge-large">
+                        <i class="bi bi-star-fill"></i>
+                        <span>@Model.Rate.ToString("0.0")</span>
+                    </div>
+                </div>
+
+                <div class="movie-meta">
+                    <span class="meta-item">
+                        <i class="bi bi-calendar-week"></i>
+                        <strong>Year:</strong> @Model.Year
+                    </span>
+                    <span class="meta-item">
+                        <i class="bi bi-tag-fill"></i>
+                        <strong>Genre:</strong> @Model.Genre.Name
+                    </span>
+                </div>
+
+                <div class="movie-storyline">
+                    <h5>
+                        <i class="bi bi-file-text"></i>
+                        Storyline
+                    </h5>
+                    <p class="text-justify">
+                        @Model.Storeline
+                    </p>
+                </div>
+
+                <div class="movie-details-actions">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-modern">
+                        <i class="bi bi-pencil"></i>
+                        Edit Movie
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary btn-modern">
+                        <i class="bi bi-list"></i>
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

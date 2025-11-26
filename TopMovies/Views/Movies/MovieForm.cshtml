@@ -1,65 +1,111 @@
 ﻿@model MovieFormViewModel
 
 @{
-    ViewData["Title"] = "Movie Form";
+    ViewData["Title"] = Model.Id > 0 ? "Edit Movie" : "Create Movie";
 }
 
-<h2>@(Model.Id > 0 ? "Edit" : "Create") Movie</h2>
+<div class="form-container">
+    <div class="form-header">
+        <h2 class="page-title">
+            <i class="bi bi-@(Model.Id > 0 ? "pencil" : "plus-circle")"></i>
+            @(Model.Id > 0 ? "Edit" : "Create") Movie
+        </h2>
+        <p class="text-muted">@(Model.Id > 0 ? "Update the movie information below." : "Fill in the details to create a new movie.")</p>
+    </div>
 
-<hr />
-
-<section class="row justify-content-between">
-    <div class="col-md-4">
-        <form method="POST" asp-action="@(Model.Id > 0 ? "Edit" : "Create")" enctype="multipart/form-data">
+    <div class="form-wrapper">
+        <form method="POST" asp-action="@(Model.Id > 0 ? "Edit" : "Create")" enctype="multipart/form-data" class="modern-form">
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label class="text-muted" asp-for="Title"></label>
-                <input type="text" class="form-control" asp-for="Title" maxlength="250" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+            
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form-group-modern">
+                        <label class="form-label-modern" asp-for="Title">
+                            <i class="bi bi-film"></i>
+                            Movie Title
+                        </label>
+                        <input type="text" class="form-control-modern" asp-for="Title" maxlength="250" placeholder="Enter movie title" />
+                        <span asp-validation-for="Title" class="validation-error"></span>
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label class="form-label-modern" asp-for="GenreId">
+                            <i class="bi bi-tag"></i>
+                            Genre
+                        </label>
+                        <select class="form-control-modern" asp-for="GenreId" asp-items="@(new SelectList(Model.Genres, "Id", "Name"))">
+                            <option value="">-- Select Genre --</option>
+                        </select>
+                        <span asp-validation-for="GenreId" class="validation-error"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-modern">
+                                <label class="form-label-modern" asp-for="Year">
+                                    <i class="bi bi-calendar"></i>
+                                    Year
+                                </label>
+                                <input type="number" class="form-control-modern" asp-for="Year" value="@(Model.Year > 0 ? Model.Year : string.Empty)" placeholder="e.g., 2023" />
+                                <span asp-validation-for="Year" class="validation-error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-modern">
+                                <label class="form-label-modern" asp-for="Rate">
+                                    <i class="bi bi-star"></i>
+                                    Rating (1-10)
+                                </label>
+                                <input type="number" step="0.1" class="form-control-modern" asp-for="Rate" value="@(Model.Rate > 0 ? Model.Rate : string.Empty)" placeholder="e.g., 8.5" />
+                                <span asp-validation-for="Rate" class="validation-error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label class="form-label-modern" asp-for="Storeline">
+                            <i class="bi bi-file-text"></i>
+                            Storyline
+                        </label>
+                        <textarea class="form-control-modern" asp-for="Storeline" maxlength="2500" rows="5" placeholder="Enter movie storyline..."></textarea>
+                        <span asp-validation-for="Storeline" class="validation-error"></span>
+                    </div>
+
+                    <div class="form-group-modern">
+                        <label class="form-label-modern" asp-for="Poster">
+                            <i class="bi bi-image"></i>
+                            Movie Poster
+                        </label>
+                        <input type="file" class="form-control-modern" asp-for="Poster" accept=".png, .jpg" />
+                        <small class="text-muted">Only .PNG, .JPG images are allowed (Max 1 MB)</small>
+                        <span asp-validation-for="Poster" class="validation-error"></span>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div id="poster-container" class="@(Model.Id > 0 ? string.Empty : "d-none") poster-preview-container">
+                        <div class="poster-preview-wrapper">
+                            <h6 class="poster-preview-title">Poster Preview</h6>
+                            <img src="@(Model.Id > 0 ? $"data:image/*;base64,{Convert.ToBase64String(Model.Poster)}" : string.Empty)" 
+                                 alt="Poster" 
+                                 class="poster-preview-image" />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label class="text-muted" asp-for="GenreId"></label>
-                <select class="form-control" asp-for="GenreId" asp-items="@(new SelectList(Model.Genres, "Id", "Name"))">
-                    <option></option>
-                </select>
-                <span asp-validation-for="GenreId" class="text-danger"></span>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-modern">
+                    <i class="bi bi-check-circle"></i>
+                    @(Model.Id > 0 ? "Update" : "Create") Movie
+                </button>
+                <a asp-action="Index" class="btn btn-secondary btn-modern">
+                    <i class="bi bi-x-circle"></i>
+                    Cancel
+                </a>
             </div>
-            <div class="form-group w-50">
-                <label class="text-muted" asp-for="Year"></label>
-                <input type="number" class="form-control" asp-for="Year" value="@(Model.Year > 0 ? Model.Year : string.Empty)" />
-                <span asp-validation-for="Year" class="text-danger"></span>
-            </div>
-            <div class="form-group w-50">
-                <label class="text-muted" asp-for="Rate"></label>
-                <input type="number" class="form-control" asp-for="Rate" value="@(Model.Rate > 0 ? Model.Rate : string.Empty)" />
-                <span asp-validation-for="Rate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="text-muted" asp-for="Storeline"></label>
-                <textarea class="form-control" asp-for="Storeline" maxlength="2500" rows="4"></textarea>
-                <span asp-validation-for="Storeline" class="text-danger"></span>
-            </div>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" asp-for="Poster" accept=".png, .jpg" />
-                <label class="custom-file-label" asp-for="Poster"></label>
-                <span asp-validation-for="Poster" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary mt-4">
-                <i class="bi bi-check"></i>
-                Save
-            </button>
-            <a asp-action="Index" class="btn btn-outline-secondary mt-4">
-                <i class="bi bi-x"></i>
-                Cancel
-            </a>
         </form>
     </div>
-    <div class="col-md-4">
-        <div id="poster-container" class="@(Model.Id > 0 ? string.Empty : "d-none")">
-            <img src="@(Model.Id > 0 ? $"data:image/*;base64,{Convert.ToBase64String(Model.Poster)}" : string.Empty)" alt="Poster" class="img-thumbnail" />
-        </div>
-    </div>
-</section>
+</div>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
@@ -67,13 +113,13 @@
         $(document).ready(function () {
             $('#Poster').on('change', function () {
                 var selectedFile = $(this).val().split('\\').pop();
-                $(this).siblings('label').text(selectedFile);
-
+                
                 var posterContainer = $('#poster-container');
-                var image = window.URL.createObjectURL(this.files[0]);
-
-                posterContainer.removeClass('d-none');
-                posterContainer.find('img').attr('src', image);
+                if (this.files && this.files[0]) {
+                    var image = window.URL.createObjectURL(this.files[0]);
+                    posterContainer.removeClass('d-none');
+                    posterContainer.find('img').attr('src', image);
+                }
             });
 
             $('#Year').datepicker({
@@ -83,6 +129,13 @@
                 autoclose: true,
                 startDate: new Date('1950-01-01'),
                 endDate: new Date()
+            });
+
+            // Add focus effect
+            $('.form-control-modern').on('focus', function () {
+                $(this).parent().addClass('focused');
+            }).on('blur', function () {
+                $(this).parent().removeClass('focused');
             });
         });
     </script>

@@ -1,0 +1,60 @@
+@model GenreFormViewModel
+
+@{
+    ViewData["Title"] = Model.Id > 0 ? "Edit Genre" : "Create Genre";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <h2 class="page-title">
+            <i class="bi bi-@(Model.Id > 0 ? "pencil" : "plus-circle")"></i>
+            @(Model.Id > 0 ? "Edit" : "Create") Genre
+        </h2>
+        <p class="text-muted">@(Model.Id > 0 ? "Update the genre information below." : "Fill in the details to create a new genre.")</p>
+    </div>
+
+    <div class="form-wrapper">
+        <form method="POST" asp-action="@(Model.Id > 0 ? "Edit" : "Create")" class="modern-form">
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="form-group-modern">
+                <label class="form-label-modern" asp-for="Name">
+                    <i class="bi bi-tag"></i>
+                    Genre Name
+                </label>
+                <input type="text" 
+                       class="form-control-modern" 
+                       asp-for="Name" 
+                       maxlength="100"
+                       placeholder="Enter genre name (e.g., Action, Drama, Comedy)" />
+                <span asp-validation-for="Name" class="validation-error"></span>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary btn-modern">
+                    <i class="bi bi-check-circle"></i>
+                    @(Model.Id > 0 ? "Update" : "Create") Genre
+                </button>
+                <a asp-action="Index" class="btn btn-secondary btn-modern">
+                    <i class="bi bi-x-circle"></i>
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+        $(document).ready(function () {
+            // Add focus effect
+            $('.form-control-modern').on('focus', function () {
+                $(this).parent().addClass('focused');
+            }).on('blur', function () {
+                $(this).parent().removeClass('focused');
+            });
+        });
+    </script>
+}
+

@@ -1,31 +1,27 @@
-﻿using DotNetCore5CRUD.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using TopMovies.Entities;
 
-namespace DotNetCore5CRUD.ViewModels
+namespace TopMovies.ViewModels;
+
+public class MovieFormViewModel
 {
-    public class MovieFormViewModel
-    {
-        public int Id { get; set; }
+    public int Id { get; set; }
 
-        [Required, StringLength(250)]
-        public string Title { get; set; }
+    [Required, StringLength(250)]
+    public string Title { get; set; } = string.Empty;
 
-        public int Year { get; set; }
+    public int Year { get; set; }
 
-        [Range(1, 10)]
-        public double Rate { get; set; }
+    [Range(1, 10)]
+    public double Rate { get; set; }
 
-        [Required, StringLength(2500)]
-        public string Storeline { get; set; }
+    [Required, StringLength(2500)]
+    public string Storeline { get; set; } = string.Empty;
 
-        [Display(Name = "Select poster...")]
-        public byte[] Poster { get; set; }
+    [Display(Name = "Select poster...")]
+    public byte[]? Poster { get; set; }
 
-        [Display(Name = "Genre")]
-        public byte GenreId { get; set; }
+    [Display(Name = "Genre")]
+    public byte GenreId { get; set; }
 
-        public IEnumerable<Genre> Genres { get; set; }
-    }
+    public IEnumerable<Genre> Genres { get; set; } = Enumerable.Empty<Genre>();
 }

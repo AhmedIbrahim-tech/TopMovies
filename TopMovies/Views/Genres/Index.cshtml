@@ -1,0 +1,115 @@
+@model IEnumerable<Genre>
+
+@{
+    ViewData["Title"] = "Genres";
+}
+
+<div class="genres-header">
+    <h2 class="page-title">
+        <i class="bi bi-tags-fill"></i>
+        Genres
+    </h2>
+    <a class="btn btn-primary btn-modern" asp-action="Create">
+        <i class="bi bi-plus-circle"></i>
+        Add Genre
+    </a>
+</div>
+
+<div class="genres-container">
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <div class="empty-state-icon">
+                <i class="bi bi-tags"></i>
+            </div>
+            <h3>No genres found!</h3>
+            <p class="text-muted">Get started by creating your first genre.</p>
+            <a class="btn btn-primary btn-modern" asp-action="Create">
+                <i class="bi bi-plus-circle"></i>
+                Create Genre
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var genre in Model)
+            {
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="genre-card">
+                        <div class="genre-card-header">
+                            <div class="genre-icon">
+                                <i class="bi bi-tag-fill"></i>
+                            </div>
+                        </div>
+                        <div class="genre-card-body">
+                            <h5 class="genre-name">@genre.Name</h5>
+                        </div>
+                        <div class="genre-card-footer">
+                            <a asp-action="Edit" asp-route-id="@genre.Id" class="btn btn-sm btn-edit" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                                Edit
+                            </a>
+                            <a href="javascript:;" class="btn btn-sm btn-delete js-delete" data-id="@genre.Id" title="Delete">
+                                <i class="bi bi-trash"></i>
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.js-delete').on('click', function () {
+                var btn = $(this);
+                var genreId = btn.data('id');
+                var genreCard = btn.closest('.genre-card');
+                var genreName = genreCard.find('.genre-name').text();
+
+                bootbox.confirm({
+                    message: `Are you sure you want to delete the genre "<strong>${genreName}</strong>"?<br><small class="text-muted">This action cannot be undone.</small>`,
+                    buttons: {
+                        confirm: {
+                            label: 'Yes, Delete',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'Cancel',
+                            className: 'btn-outline-secondary'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: '/genres/delete/' + genreId,
+                                method: 'POST',
+                                success: function () {
+                                    genreCard.addClass('animate__animated animate__zoomOut');
+                                    setTimeout(function () {
+                                        genreCard.closest('.col-md-6, .col-lg-4, .col-xl-3').remove();
+                                        
+                                        // Check if no genres left
+                                        if ($('.genre-card').length === 0) {
+                                            location.reload();
+                                        }
+                                    }, 500);
+                                    toastr.success('Genre deleted successfully');
+                                },
+                                error: function (xhr) {
+                                    var errorMsg = xhr.responseText || 'Something went wrong!';
+                                    toastr.error(errorMsg);
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+

@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "DotNetCore5CRUD": {
+    "TopMovies": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
