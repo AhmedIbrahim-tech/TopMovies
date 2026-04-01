@@ -1,14 +1,14 @@
-﻿@model Movie
+@model Movie
 
 @{
     ViewData["Title"] = Model.Title;
 }
 
 <div class="movie-details-container">
-    <div class="movie-details-header">
+    <div class="movie-details-header mb-4">
         <a asp-action="Index" class="btn btn-secondary btn-modern">
-            <i class="bi bi-arrow-left"></i>
-            Back to Movies
+            <i data-lucide="arrow-left"></i>
+            Back to Collection
         </a>
     </div>
 
@@ -22,42 +22,42 @@
         </div>
         <div class="col-md-8">
             <div class="movie-details-content">
-                <div class="d-flex justify-content-between align-items-start mb-4">
-                    <h1 class="movie-title">@Model.Title</h1>
-                    <div class="rating-badge-large">
-                        <i class="bi bi-star-fill"></i>
-                        <span>@Model.Rate.ToString("0.0")</span>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="movie-title mb-0">@Model.Title</h1>
+                    <div class="rating-badge-large d-flex align-items-center gap-2 px-3 py-2 bg-warning bg-opacity-10 rounded-pill border border-warning border-opacity-25">
+                        <i data-lucide="star" class="text-warning fill-warning" style="width: 24px; height: 24px;"></i>
+                        <span class="fs-4 fw-bold text-white">@Model.Rate.ToString("0.0")</span>
                     </div>
                 </div>
 
-                <div class="movie-meta">
-                    <span class="meta-item">
-                        <i class="bi bi-calendar-week"></i>
-                        <strong>Year:</strong> @Model.Year
+                <div class="movie-meta d-flex gap-4 py-3 border-top border-bottom border-glass mb-4">
+                    <span class="meta-item d-flex align-items-center gap-2">
+                        <i data-lucide="calendar" style="width: 18px; color: var(--primary)"></i>
+                        <span class="text-muted">Year:</span> <strong class="text-white">@Model.Year</strong>
                     </span>
-                    <span class="meta-item">
-                        <i class="bi bi-tag-fill"></i>
-                        <strong>Genre:</strong> @Model.Genre.Name
+                    <span class="meta-item d-flex align-items-center gap-2">
+                        <i data-lucide="tag" style="width: 18px; color: var(--accent)"></i>
+                        <span class="text-muted">Genre:</span> <strong class="text-white">@Model.Genre.Name</strong>
                     </span>
                 </div>
 
-                <div class="movie-storyline">
-                    <h5>
-                        <i class="bi bi-file-text"></i>
+                <div class="movie-storyline mt-4">
+                    <h5 class="d-flex align-items-center gap-2 mb-3">
+                        <i data-lucide="file-text" style="color: var(--primary)"></i>
                         Storyline
                     </h5>
-                    <p class="text-justify">
+                    <p class="text-muted" style="line-height: 1.8;">
                         @Model.Storeline
                     </p>
                 </div>
 
-                <div class="movie-details-actions">
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-modern">
-                        <i class="bi bi-pencil"></i>
+                <div class="movie-details-actions d-flex gap-3 mt-5">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary btn-modern px-4 py-2">
+                        <i data-lucide="pencil" style="width: 18px;"></i>
                         Edit Movie
                     </a>
-                    <a asp-action="Index" class="btn btn-secondary btn-modern">
-                        <i class="bi bi-list"></i>
+                    <a asp-action="Index" class="btn btn-secondary btn-modern px-4 py-2">
+                        <i data-lucide="layout-list" style="width: 18px;"></i>
                         Back to List
                     </a>
                 </div>

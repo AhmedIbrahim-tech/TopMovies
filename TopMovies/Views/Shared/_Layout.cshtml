@@ -1,67 +1,106 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Top Movies</title>
+    <title>@ViewData["Title"] - TopMovies</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
-    <link href="~/lib/animate.css/animate.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-modern">
-            <div class="container">
-                <a class="navbar-brand brand-modern" asp-area="" asp-controller="Home" asp-action="Index">
-                    <i class="bi bi-camera-reels-fill"></i> Top Movies
+        <nav class="navbar navbar-expand-sm navbar-modern mb-3">
+            <div class="container d-flex align-items-center justify-content-between">
+                <a class="navbar-brand brand-modern d-flex align-items-center gap-2" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i data-lucide="clapperboard"></i>
+                    <span>TopMovies</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                
+                <div class="navbar-pills">
+                    <ul class="navbar-nav d-flex flex-row gap-1">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-                                <i class="bi bi-house-door"></i> Home
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i data-lucide="home"></i>
+                                <span>Home</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Movies" asp-action="Index">
-                                <i class="bi bi-film"></i> Movies
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Movies" ? "active" : "")" asp-area="" asp-controller="Movies" asp-action="Index">
+                                <i data-lucide="film"></i>
+                                <span>Movies</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Genres" asp-action="Index">
-                                <i class="bi bi-tags"></i> Genres
+                            <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Genres" ? "active" : "")" asp-area="" asp-controller="Genres" asp-action="Index">
+                                <i data-lucide="tags"></i>
+                                <span>Genres</span>
                             </a>
                         </li>
                     </ul>
                 </div>
+
+                <div class="theme-switch-wrapper">
+                    <button id="theme-toggle" class="circle-btn-theme" title="Toggle Theme">
+                        <i data-lucide="moon" class="dark-icon"></i>
+                        <i data-lucide="sun" class="light-icon"></i>
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main">
+
+    <div class="container flex-grow-1">
+        <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="footer-modern">
+    <footer class="footer-modern fixed-bottom py-3">
         <div class="container">
-            <div class="footer-content">
-                <p>&copy; @DateTime.Now.Year - Top Movies</p>
-                <p class="text-muted">Your ultimate movie collection manager</p>
+            <div class="footer-grid d-flex justify-content-between align-items-center">
+                <div class="brand-footer">
+                    <h5 class="mb-0 text-white">TopMovies</h5>
+                </div>
+                <div class="footer-links">
+                    <p class="mb-0 text-muted small">&copy; @DateTime.Now.Year - Crafted with <i data-lucide="heart" class="text-danger" style="width: 14px; display:inline-block"></i> by <span class="text-white fw-bold">Ahmed Eprahim</span></p>
+                </div>
             </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="~/lib/bootbox.js/bootbox.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Theme Management
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        themeToggle.addEventListener('click', () => {
+            let theme = document.documentElement.getAttribute('data-theme');
+            let newTheme = theme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            lucide.createIcons();
+        });
+
+        lucide.createIcons();
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
     @await Component.InvokeAsync("NToastNotify")
 </body>

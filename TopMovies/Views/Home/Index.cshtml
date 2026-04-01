@@ -1,56 +1,54 @@
-﻿@{
+@{
     ViewData["Title"] = "Home";
 }
 
 <div class="home-hero text-center">
     <div class="hero-content">
         <div class="hero-icon mb-4">
-            <i class="bi bi-camera-reels-fill"></i>
+            <i data-lucide="clapperboard"></i>
         </div>
-        <h1 class="hero-title">Welcome to Top Movies</h1>
-        <p class="hero-subtitle">Your ultimate movie collection manager</p>
-        <p class="hero-description text-muted mb-5">
-            Manage your favorite movies, organize by genres, and keep track of ratings all in one place.
-        </p>
-        <div class="hero-actions">
-            <a asp-controller="Movies" asp-action="Index" class="btn btn-primary btn-modern btn-lg me-3">
-                <i class="bi bi-film"></i>
-                Browse Movies
+        <h1 class="hero-title display-4 fw-bold">Welcome to TopMovies</h1>
+        <p class="hero-subtitle lead text-muted px-md-5">Your ultimate movie collection manager. Experience a premium way to manage your cinematic journey.</p>
+        
+        <div class="hero-actions mt-5 pt-3">
+            <a asp-controller="Movies" asp-action="Index" class="btn btn-primary btn-modern px-5 py-3 me-3">
+                <i data-lucide="film" style="width: 20px;"></i>
+                Explore Collection
             </a>
-            <a asp-controller="Genres" asp-action="Index" class="btn btn-secondary btn-modern btn-lg">
-                <i class="bi bi-tags"></i>
+            <a asp-controller="Genres" asp-action="Index" class="btn btn-secondary btn-modern px-5 py-3">
+                <i data-lucide="layout-grid" style="width: 20px;"></i>
                 Manage Genres
             </a>
         </div>
     </div>
 
-    <div class="features-section mt-5">
-        <div class="row g-4">
+    <div class="features-section mt-5 pt-5">
+        <div class="row g-4 pt-5">
             <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="bi bi-film"></i>
+                <div class="feature-card h-100">
+                    <div class="feature-icon-wrapper mb-4">
+                        <i data-lucide="camera" class="feature-icon"></i>
                     </div>
-                    <h4>Movie Management</h4>
-                    <p class="text-muted">Add, edit, and organize your movie collection with ease.</p>
+                    <h4 class="fw-bold mb-3">Movie Management</h4>
+                    <p class="text-muted">Effortlessly add, edit, and organize your vast cinematic collection with a sleek interface.</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="bi bi-tags"></i>
+                <div class="feature-card h-100">
+                    <div class="feature-icon-wrapper mb-4">
+                        <i data-lucide="layers" class="feature-icon"></i>
                     </div>
-                    <h4>Genre Organization</h4>
-                    <p class="text-muted">Categorize movies by genres for better organization.</p>
+                    <h4 class="fw-bold mb-3">Genre & Tagging</h4>
+                    <p class="text-muted">Smart categorization by genres and tags to help you find your next watch in seconds.</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="bi bi-star-fill"></i>
+                <div class="feature-card h-100">
+                    <div class="feature-icon-wrapper mb-4">
+                        <i data-lucide="star" class="feature-icon"></i>
                     </div>
-                    <h4>Rating System</h4>
-                    <p class="text-muted">Rate your favorite movies and keep track of your preferences.</p>
+                    <h4 class="fw-bold mb-3">Premium Ratings</h4>
+                    <p class="text-muted">Track your favorites with a professional rating system and personalized preferences.</p>
                 </div>
             </div>
         </div>
