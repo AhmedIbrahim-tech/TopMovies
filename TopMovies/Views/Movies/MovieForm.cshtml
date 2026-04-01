@@ -83,10 +83,10 @@
                         <div class="preview-overlay">
                             <i data-lucide="image" class="preview-placeholder-icon"></i>
                         </div>
-                        <img src="@(Model.Id > 0 ? $"data:image/*;base64,{Convert.ToBase64String(Model.Poster)}" : string.Empty)" 
+                        <img src="@(Model.Id > 0 && Model.Poster != null ? $"data:image/*;base64,{Convert.ToBase64String(Model.Poster)}" : string.Empty)" 
                              alt="Poster Preview" 
                              id="preview-img"
-                             class="poster-preview-image @(Model.Id > 0 ? string.Empty : "d-none")" />
+                             class="poster-preview-image @(Model.Id > 0 && Model.Poster != null ? string.Empty : "d-none")" />
                     </div>
                     
                     <div class="mt-4">

@@ -1,4 +1,4 @@
-﻿namespace TopMovies.Controllers;
+namespace TopMovies.Controllers;
 
 public class MoviesController(ApplicationDbContext context, IToastNotification toastNotification) : Controller
 {
@@ -132,12 +132,6 @@ public class MoviesController(ApplicationDbContext context, IToastNotification t
 
             if (poster != null)
             {
-                using var dataStream = new MemoryStream();
-
-                await poster.CopyToAsync(dataStream);
-
-                model.Poster = dataStream.ToArray();
-
                 if (!_allowedExtensions.Contains(Path.GetExtension(poster.FileName).ToLower()))
                 {
                     model.Genres = await context.Genres.OrderBy(m => m.Name).ToListAsync();
@@ -152,23 +146,12 @@ public class MoviesController(ApplicationDbContext context, IToastNotification t
                     return View("MovieForm", model);
                 }
 
-                movie.Poster = model.Poster;
+                using var dataStream = new MemoryStream();
+                await poster.CopyToAsync(dataStream);
+                movie.Poster = dataStream.ToArray();
             }
-            {
-                model.Genres = await context.Genres.OrderBy(m => m.Name).ToListAsync();
-                ModelState.AddModelError("Poster", "Only .PNG, .JPG images are allowed!");
-                return View("MovieForm", model);
-            }
-
-            if (poster.Length > MaxAllowedPosterSize)
-            {
-                model.Genres = await context.Genres.OrderBy(m => m.Name).ToListAsync();
-                ModelState.AddModelError("Poster", "Poster cannot be more than 1 MB!");
-                return View("MovieForm", model);
-            }
-
-            movie.Poster = model.Poster;
         }
+
 
         movie.Title = model.Title;
         movie.GenreId = model.GenreId;

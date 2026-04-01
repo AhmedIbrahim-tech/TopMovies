@@ -37,7 +37,7 @@
                     </span>
                     <span class="meta-item d-flex align-items-center gap-2">
                         <i data-lucide="tag" style="width: 18px; color: var(--accent)"></i>
-                        <span class="text-muted">Genre:</span> <strong class="text-white">@Model.Genre.Name</strong>
+                        <span class="text-muted">Genre:</span> <strong class="text-white">@(Model.Genre?.Name ?? "No Genre")</strong>
                     </span>
                 </div>
 
